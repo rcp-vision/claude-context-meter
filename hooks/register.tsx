@@ -56,8 +56,26 @@ export function colorAt(percent: number): string {
   return toHex(STOPS[STOPS.length - 1][1])
 }
 
-export function filledSegments(percent: number): number {
-  return Math.min(SEGMENTS, Math.round((percent / 100) * SEGMENTS))
+export function filledSegments(percent: number, segments = SEGMENTS): number {
+  return Math.min(segments, Math.round((percent / 100) * segments))
+}
+
+// The desktop draws this slot in a frame of at most 24 characters that
+// shrinks with the footer and cuts the end, where the percentage is, with an
+// ellipsis. Measured on the desktop, the frame's room comes to about
+// 0.9 × viewport.columns − 23 characters; a segment takes about 1.7, the
+// number about 1.05 per digit plus 2, the mode label about 0.75 per letter.
+// The bar gives up segments, with a margin of 2, so the number stays.
+export function segmentsFor(columns: number | undefined, percent: number, label: string): number {
+  if (columns === undefined) {
+    return SEGMENTS
+  }
+
+  const room = 0.9 * columns - 25
+  const number = 2 + 1.05 * String(percent).length
+  const modes = 0.75 * label.length
+
+  return Math.max(0, Math.min(SEGMENTS, Math.floor((room - number - modes) / 1.7)))
 }
 
 export const register: Register = on => {
@@ -92,10 +110,13 @@ export const register: Register = on => {
     }
 
     const { Box, Text } = $.ui.resolve(e)
-    const full = filledSegments(current.percent)
-    const segments = Array.from({ length: SEGMENTS }, (_, i) =>
+    const modes = e.props.modes.length > 0 ? `${e.props.modes.join(' & ')}  ` : ''
+    const count =
+      e.surface === 'desktop' ? segmentsFor(e.viewport?.columns, current.percent, modes) : SEGMENTS
+    const full = filledSegments(current.percent, count)
+    const segments = Array.from({ length: count }, (_, i) =>
       i < full ? (
-        <Text key={`s${i}`} color={colorAt(((i + 1) / SEGMENTS) * 100)}>
+        <Text key={`s${i}`} color={colorAt(((i + 1) / count) * 100)}>
           ▰
         </Text>
       ) : (
@@ -104,14 +125,13 @@ export const register: Register = on => {
         </Text>
       ),
     )
-    const modes = e.props.modes.length > 0 ? `${e.props.modes.join(' & ')}  ` : ''
 
     return (
       <Box flexDirection="row">
         {modes !== '' && <Text dimColor>{modes}</Text>}
         {segments}
-        <Text color={colorAt(current.percent)} bold={current.percent > 50}>
-          {` ${current.percent}%`}
+        <Text color={colorAt(current.percent)} bold={current.percent > 50} tabular>
+          {`${count > 0 ? ' ' : ''}${current.percent}%`}
         </Text>
       </Box>
     )

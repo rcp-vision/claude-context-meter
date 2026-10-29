@@ -1,6 +1,6 @@
 {
   "name": "context-meter",
-  "version": "0.4.0",
+  "version": "0.7.0",
   "description": "Shows the context window fill under the model name, blue up to 50% then yellow to red.",
   "author": {
     "name": "Vincenzo Caselli"

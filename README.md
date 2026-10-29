@@ -13,6 +13,9 @@ all times, in the prompt footer:
   50%.
 - The percentage is always written out, so the meter does not rely on color
   alone.
+- In the desktop app the meter has at most 24 characters, and less in a
+  narrow window. As the window narrows, the bar gives up segments so that the
+  percentage stays visible.
 
 The meter works in the Code tab of the Claude desktop app and in the terminal.
 In the desktop app it appears under the model name.
