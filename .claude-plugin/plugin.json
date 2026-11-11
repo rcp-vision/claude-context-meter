@@ -6,7 +6,7 @@
     "name": "Vincenzo Caselli"
   },
   "types": "./types/index.d.ts",
-  "homepage": "https://github.com/vincenzocaselli/claude-context-meter",
-  "repository": "https://github.com/vincenzocaselli/claude-context-meter",
+  "homepage": "https://github.com/rcp-vision/claude-context-meter",
+  "repository": "https://github.com/rcp-vision/claude-context-meter",
   "license": "MIT"
 }

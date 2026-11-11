@@ -35,7 +35,7 @@ If your version is older, run `claude update`.
 In a terminal session of Claude Code, run:
 
 ```
-/plugin install context-meter --marketplace vincenzocaselli/claude-context-meter
+/plugin install context-meter --marketplace rcp-vision/claude-context-meter
 ```
 
 Answer `y` to add the marketplace, then press Enter to install for your user.
@@ -43,8 +43,8 @@ Answer `y` to add the marketplace, then press Enter to install for your user.
 You can also install from a shell:
 
 ```bash
-claude plugin marketplace add vincenzocaselli/claude-context-meter
-claude plugin install context-meter@vincenzocaselli --scope user
+claude plugin marketplace add rcp-vision/claude-context-meter
+claude plugin install context-meter@rcp-vision --scope user
 ```
 
 Sessions started after the install load the plugin. Restart the sessions that
@@ -59,14 +59,14 @@ that was just compacted shows the meter again after its next response.
 ## Update
 
 ```bash
-claude plugin marketplace update vincenzocaselli
-claude plugin update context-meter@vincenzocaselli
+claude plugin marketplace update rcp-vision
+claude plugin update context-meter@rcp-vision
 ```
 
 ## Uninstall
 
 ```bash
-claude plugin uninstall context-meter@vincenzocaselli
+claude plugin uninstall context-meter@rcp-vision
 ```
 
 ## License
